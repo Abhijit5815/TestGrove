@@ -2,6 +2,8 @@
 
 > A Playwright test suite as a living tree. **Every leaf is exactly one test.**
 
+![TestGrove: hover a branch, inspect a failing test, focus failures, a live run, List and Stats, flying into a folder](docs/demo.gif)
+
 ## Status: v0.5 — the tree is the data map
 
 The painted tree is no longer a background with lines drawn over it. Its glass
