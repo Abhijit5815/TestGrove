@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "build",
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "silent", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "label": "watch core",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "group": "test",
+      "label": "run invariant tests",
+      "problemMatcher": []
+    }
+  ]
+}

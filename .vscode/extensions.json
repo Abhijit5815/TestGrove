@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "ritwickdey.LiveServer",
+    "usernamehw.errorlens",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ]
+}

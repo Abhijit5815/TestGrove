@@ -1,0 +1,30 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build output
+dist/
+extension/out/
+*.vsix
+
+# Editor / OS
+.DS_Store
+.vscode/*.log
+*.log
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+
+# Test artifacts
+coverage/
+.nyc_output/
+
+# Local scratch
+scratchpad/
+tmp/
+
+# Python
+__pycache__/
+*.pyc

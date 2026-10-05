@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TestGrove · Leaf lab</title>
+<style>
+  body { margin: 0; background: #0b0d10; color: #cfd6de; font: 13px/1.5 -apple-system, "Inter", sans-serif; }
+  h2 { font-weight: 500; font-size: 13px; letter-spacing: .02em; color: #8b96a3; margin: 24px 32px 8px; }
+  .row { display: flex; gap: 0; padding: 0 16px; }
+  .cell { flex: 1; text-align: center; }
+  .cell .name { color: #e8edf2; font-size: 14px; }
+  .cell .sub { color: #77828f; font-size: 12px; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+  <h2>Specimens — 5×</h2>
+  <svg id="big" width="1500" height="430" viewBox="0 0 1500 430"></svg>
+  <div class="row" id="labels"></div>
+
+  <h2>On the painting — actual tree size</h2>
+  <svg id="scene" width="1500" height="560" viewBox="0 0 1500 560">
+    <image href="./assets/scene-unsettled.jpg" x="-900" y="-160" width="2752" height="1536"/>
+  </svg>
+
+<script src="./leaf.js"></script>
+<script>
+  const L = window.TestGroveLeaf;
+  const specimens = [
+    { id: 'bud-1',    status: 'pending', label: 'Bud',       sub: 'running / pending' },
+    { id: 'fresh-1',  status: 'passing', label: 'Fresh',     sub: 'passing', metadata: { duration: 600 } },
+    { id: 'turn-1',   status: 'flaky',   label: 'Turning',   sub: 'flaky · 1 retry', metadata: { retryCount: 1 } },
+    { id: 'turn-2',   status: 'flaky',   label: 'Turning',   sub: 'flaky · 3 retries', metadata: { retryCount: 3 } },
+    { id: 'wither-1', status: 'failing', label: 'Withering', sub: 'failing', metadata: { duration: 9000 } },
+    { id: 'dorm-1',   status: 'skipped', label: 'Dormant',   sub: 'skipped' },
+  ];
+
+  // Big specimens hanging from a glass twig
+  const big = document.getElementById('big');
+  L.installLeafDefs(document);
+  const ns = 'http://www.w3.org/2000/svg';
+  const twig = document.createElementNS(ns, 'path');
+  twig.setAttribute('d', 'M 0 60 C 400 40 1100 40 1500 60');
+  twig.setAttribute('stroke', 'rgba(230,220,200,0.35)'); twig.setAttribute('stroke-width', 10);
+  twig.setAttribute('fill', 'none'); twig.setAttribute('stroke-linecap', 'round');
+  big.appendChild(twig);
+  const step = 1500 / specimens.length;
+  specimens.forEach((t, i) => {
+    L.drawLeaf(big, L.leafVisual(t), { x: step * i + step / 2, y: 52, rotate: 0, scale: 5.6 });
+  });
+  document.getElementById('labels').innerHTML = specimens.map(
+    (t) => `<div class="cell"><div class="name">${t.label}</div><div class="sub">${t.sub}</div></div>`).join('');
+
+  // On the painting: hang a cluster along a real branch region at tree scale
+  const scene = document.getElementById('scene');
+  L.installLeafDefs(scene);
+  const statuses = ['passing','passing','passing','flaky','passing','failing','passing','skipped','passing','pending','passing','failing','passing','passing','flaky','passing'];
+  // positions roughly along the right limb of the unsettled tree (image offset -900,-160)
+  const pts = [[310,250],[350,236],[392,222],[432,206],[470,196],[515,186],[560,176],
+               [372,322],[420,300],[468,286],[512,270],[556,260],[600,250],[640,238],[684,226],[730,214]];
+  pts.forEach(([x, y], i) => {
+    const t = { id: 'scene-' + i, status: statuses[i % statuses.length], metadata: { retryCount: 2, duration: 300 + i * 400 } };
+    L.drawLeaf(scene, L.leafVisual(t), { x, y, rotate: -12 + (i % 5) * 6, scale: 0.62 });
+  });
+</script>
+</body>
+</html>

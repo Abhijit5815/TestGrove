@@ -1,0 +1,79 @@
+{
+  "name": "testgrove",
+  "displayName": "TestGrove",
+  "version": "0.1.0",
+  "description": "TestGrove \u2014 visualize a Playwright test suite as a living tree. Every leaf is one test.",
+  "publisher": "testgrove",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0",
+    "node": ">=18"
+  },
+  "categories": [
+    "Testing",
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "playwright",
+    "test",
+    "visualization",
+    "tree",
+    "vscode"
+  ],
+  "main": "./extension/out/extension.js",
+  "activationEvents": [
+    "onCommand:testgrove.open"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "testgrove.open",
+        "title": "TestGrove: Open the grove",
+        "category": "TestGrove"
+      },
+      {
+        "command": "testgrove.runAll",
+        "title": "TestGrove: Run all Playwright tests",
+        "category": "TestGrove"
+      }
+    ],
+    "configuration": {
+      "title": "TestGrove",
+      "properties": {
+        "testgrove.playwright.configPath": {
+          "type": "string",
+          "default": "playwright.config.ts",
+          "description": "Path to your Playwright config, relative to the workspace root."
+        },
+        "testgrove.playwright.testDir": {
+          "type": "string",
+          "default": "tests",
+          "description": "Directory containing your Playwright tests."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test": "node tests/invariants.test.js",
+    "prototype": "python3 -m http.server 8080 --directory prototype",
+    "typecheck": "tsc --noEmit",
+    "build:core": "esbuild src/index.ts --bundle --format=iife --global-name=TestGrove --outfile=prototype/testgrove-bundle.js --platform=browser",
+    "build:extension": "esbuild extension/src/extension.ts --bundle --format=cjs --platform=node --external:vscode --outfile=extension/out/extension.js",
+    "build": "npm run build:core && npm run build:extension",
+    "dev": "esbuild src/index.ts --bundle --format=iife --global-name=TestGrove --outfile=prototype/testgrove-bundle.js --platform=browser --watch",
+    "dev:extension": "esbuild extension/src/extension.ts --bundle --format=cjs --platform=node --external:vscode --outfile=extension/out/extension.js --watch",
+    "package": "vsce package",
+    "vscode:prepublish": "npm run build",
+    "anatomy": "python3 tools/build_anatomy.py",
+    "scene": "python3 tools/build_scene.py"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.19.0",
+    "typescript": "^5.4.0",
+    "@vscode/vsce": "^2.24.0"
+  }
+}
